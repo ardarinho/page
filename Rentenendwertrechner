@@ -1,0 +1,56 @@
+<html><head>
+        <title>Nachschüssige Rentenendwertrechner</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+        "use strict";
+        function Rentenrechnung() {
+
+        var vNachschüssigeRente;
+        var vZinssatz;
+        var vLaufzeit;
+        var vAusgabeHtml;
+        var vq;
+        var vStartjahr=0;
+        var vKapital;
+        var vZinsen;
+        var vEndkapital;
+
+        vZinssatz =    parseFloat(document.getElementById("Zinssatz").value/100);
+        vNachschüssigeRente = parseFloat(document.getElementById("Rente").value);
+        vLaufzeit = parseFloat(document.getElementById("Laufzeit").value);
+
+
+        vAusgabeHtml = "<table border 1><tr><th>Jahr</th><th>Kapital am 1.1.</th><th>Zinsen am 31.12.</th><th>Rente am 31.12.</th><th>Kapital am 31.12.</th></tr>";
+
+        vq = 1+ vZinssatz;
+
+        while (vStartjahr<=vLaufzeit){
+
+        vKapital = vNachschüssigeRente*((Math.pow(vq,vStartjahr)-1)/vZinssatz);
+        vZinsen = vKapital* vZinssatz;
+        vEndkapital = vKapital + vZinsen + vNachschüssigeRente;
+
+        vAusgabeHtml = vAusgabeHtml + "<tr> <td>" + vStartjahr +  "</td> <td>" + vKapital.toFixed(2) + " Euro" + "</td> <td>" + vZinsen.toFixed(2) + " Euro" + "</td> <td>" + vNachschüssigeRente + " Euro "  + "</td> <td>" + vEndkapital.toFixed(2) + " Euro " + "</td> </tr>";
+
+        vStartjahr ++;
+
+   }
+        vAusgabeHtml = vAusgabeHtml + "Der Rentenednwert beträgt " + vEndkapital.toFixed(2) + " € <br></br>" + "</table>";
+
+        document.getElementById("Ausgabe").innerHTML = vAusgabeHtml;
+
+}
+    </script>
+    </head>
+
+    <body><h1>Nachschüssige Rentenendwertrechner</h1><br>
+
+    Zinssatz: <input id="Zinssatz" value="2" type="text">%<br>
+    Nachschüssige Rente: <input id="Rente" value="100" type="text">€<br>
+    Laufzeit: <input id="Laufzeit" value="5" type="text">Jahre<br>
+    <br></br>
+    <button onclick="Rentenrechnung();">Berechnen</button>
+    <br></br>
+    <div id="Ausgabe">Klicken Sie auf den Button, damit hier eine Tabelle ersceint...</div>
+
+</body></html>
